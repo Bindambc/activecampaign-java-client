@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 SourceLab.org https://github.com/SourceLabOrg/activecampaign-java-client
+ * Copyright 2019, 2020, 2021 SourceLab.org https://github.com/SourceLabOrg/activecampaign-java-client
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -14,7 +14,6 @@
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 package org.sourcelab.activecampaign;
 
 import org.junit.jupiter.api.AfterAll;
@@ -26,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.sourcelab.activecampaign.apiv3.ActiveCampaignClient;
 import org.sourcelab.activecampaign.apiv3.ApiConfig;
 import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
+import org.sourcelab.activecampaign.apiv3.request.contact.ContactRetrieveRequest;
 import org.sourcelab.activecampaign.apiv3.request.contactList.ContactListSubscribeRequest;
 import org.sourcelab.activecampaign.apiv3.request.contactTag.ContactTag;
 import org.sourcelab.activecampaign.apiv3.request.tag.TagCreateRequest;
@@ -33,6 +33,7 @@ import org.sourcelab.activecampaign.apiv3.response.account.Account;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountListResponse;
 import org.sourcelab.activecampaign.apiv3.response.account.AccountResponse;
 import org.sourcelab.activecampaign.apiv3.response.contact.ContactCreateResponse;
+import org.sourcelab.activecampaign.apiv3.response.contact.ContactRetrieveResponse;
 import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagCreateResponse;
 import org.sourcelab.activecampaign.apiv3.response.contactTag.ContactTagDeleteResponse;
 import org.sourcelab.activecampaign.apiv3.response.customField.CustomFieldListResponse;
@@ -82,7 +83,7 @@ class ActiveCampaignClientTest {
         /**
          * Set during class bootstrap.
          */
-        ApiConfig apiConfig = new ApiConfig(activeCampaignAccountName, activeCampaignApiToken);
+        final ApiConfig apiConfig = new ApiConfig(activeCampaignAccountName, activeCampaignApiToken);
         apiV3Client = new ActiveCampaignClient(apiConfig);
     }
 
@@ -198,7 +199,7 @@ class ActiveCampaignClientTest {
     }
 
     /**
-     * Tests the accounts resource api end points.
+     * Tests the contact sync api end point.
      */
     @Test
     void testSyncContactResource() {
@@ -217,6 +218,19 @@ class ActiveCampaignClientTest {
         logger.info("Resop: {}", resp);
         final ContactCreateResponse resp2 = apiV3Client.contactSync(contactToCreate);
         logger.info("Resop: {}", resp2);
+    }
+
+    /**
+     * Tests the contact sync api end point.
+     */
+    @Test
+    void testContactRetrieve() {
+        // Create a test account.
+        final long contactId = 1;
+
+        // Make api request to create the account
+        final ContactRetrieveResponse resp = apiV3Client.contactRetrieve(contactId);
+        logger.info("Resop: {}", resp);
     }
 
     /**

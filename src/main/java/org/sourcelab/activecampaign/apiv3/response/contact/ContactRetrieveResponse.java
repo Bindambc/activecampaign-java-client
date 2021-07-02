@@ -14,42 +14,31 @@
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.sourcelab.activecampaign.reseller.response;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+package org.sourcelab.activecampaign.apiv3.response.contact;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * Reseller account list response.
+ * Represents the API response from creating a Contact.
  */
-public class AccountListResponse extends AbstractResponse {
-    private final List<Account> accounts;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ContactRetrieveResponse extends ContactCreateResponse {
     /**
      * Constructor.
+     *
+     * @param fieldValues
+     * @param contactValues
      */
-    @JsonCreator
-    public AccountListResponse(
-        @JsonProperty("accounts") final List<Account> accounts,
-        @JsonProperty("result_code") final int resultCode,
-        @JsonProperty("result_message") final String resultMessage
+    public ContactRetrieveResponse(
+        @JsonProperty("fieldValues") final List<Contact.FieldValue> fieldValues,
+        @JsonProperty("contact") final Map<String, Object> contactValues
     ) {
-        super(resultCode, resultMessage);
-        this.accounts = accounts;
-    }
-
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
-    @Override
-    public String toString() {
-        return "AccountListResponse{"
-            + "accounts=" + accounts
-            + ", resultCode=" + resultCode
-            + ", resultMessage='" + resultMessage + '\''
-            + '}';
+        super(fieldValues, contactValues);
     }
 }

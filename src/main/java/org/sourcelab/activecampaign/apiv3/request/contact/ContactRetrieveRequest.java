@@ -14,49 +14,50 @@
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.sourcelab.activecampaign.reseller.request;
+
+package org.sourcelab.activecampaign.apiv3.request.contact;
 
 import org.sourcelab.activecampaign.JacksonFactory;
-import org.sourcelab.activecampaign.reseller.response.AccountCancelResponse;
+import org.sourcelab.activecampaign.apiv3.response.contact.ContactCreateResponse;
+import org.sourcelab.activecampaign.apiv3.response.contact.ContactRetrieveResponse;
+import org.sourcelab.http.rest.request.Request;
+import org.sourcelab.http.rest.request.RequestMethod;
+import org.sourcelab.http.rest.request.body.NoBodyContent;
+import org.sourcelab.http.rest.request.body.RequestBodyContent;
 
 import java.io.IOException;
 
 /**
- * Allows you to cancel an active account.
+ * Get a contact by
  */
-public class AccountCancelRequest  extends AbstractRequest<AccountCancelRequest, AccountCancelResponse> {
+public class ContactRetrieveRequest implements Request<ContactRetrieveResponse> {
+    private final long id;
 
-    public AccountCancelRequest() {
-        super("account_cancel");
-    }
-
-    public AccountCancelRequest withAccount(final String account) {
-        return setParam("account", account);
-    }
-
-    public AccountCancelRequest withReason(final String reason) {
-        return setParam("reason", reason);
-    }
-
-    public AccountCancelRequest withRetainData(final boolean shouldRetainData) {
-        if (shouldRetainData) {
-            return setParam("retaindata", "1");
-        } else {
-            return setParam("retaindata", "0");
-        }
-    }
-
-    public AccountCancelRequest withRetainingData() {
-        return withRetainData(true);
-    }
-
-    public AccountCancelRequest withDeletingData() {
-        return withRetainData(false);
+    /**
+     * Constructor.
+     * @param contactId id of contact to retrieve.
+     */
+    public ContactRetrieveRequest(final long contactId) {
+        this.id = contactId;
     }
 
     @Override
-    public AccountCancelResponse parseResponse(final String response) throws IOException {
-        return JacksonFactory.newInstance().readValue(response, AccountCancelResponse.class);
+    public String getApiEndpoint() {
+        return "api/3/contacts/" + id;
+    }
+
+    @Override
+    public RequestMethod getRequestMethod() {
+        return RequestMethod.GET;
+    }
+
+    @Override
+    public RequestBodyContent getRequestBody() {
+        return new NoBodyContent();
+    }
+
+    @Override
+    public ContactRetrieveResponse parseResponse(final String response) throws IOException {
+        return JacksonFactory.newInstance().readValue(response, ContactRetrieveResponse.class);
     }
 }
-
