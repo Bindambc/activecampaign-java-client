@@ -234,6 +234,19 @@ class ActiveCampaignClientTest {
     }
 
     /**
+     * Tests the contact sync api end point.
+     */
+    @Test
+    void testContactRetrieve_doesNotExist() {
+        // Create a test account.
+        final long contactId = 1000;
+
+        // Make api request to create the account
+        final ContactRetrieveResponse resp = apiV3Client.contactRetrieve(contactId);
+        logger.info("Resop: {}", resp);
+    }
+
+    /**
      * Tests the accounts resource api end points.
      */
     @Test

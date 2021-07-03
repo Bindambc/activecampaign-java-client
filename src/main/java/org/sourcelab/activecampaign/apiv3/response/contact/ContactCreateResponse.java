@@ -22,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.sourcelab.activecampaign.apiv3.request.contact.Contact;
 import org.sourcelab.activecampaign.apiv3.request.contact.ContactBuilder;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +51,10 @@ public class ContactCreateResponse {
             .withId((String) contactValues.get("id"));
 
         fieldValues.forEach((fieldValue) -> builder.withField(fieldValue.getField(), fieldValue.getValue()));
+
+        if (contactValues.containsKey("links")) {
+            builder.withLinks((Map<String, String>) contactValues.get("links"));
+        }
 
         this.contact = builder.build();
     }

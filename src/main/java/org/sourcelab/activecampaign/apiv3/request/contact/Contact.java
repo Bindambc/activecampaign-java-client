@@ -24,7 +24,9 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -40,6 +42,9 @@ public class Contact {
     private final String phone;
     private final List<FieldValue> fieldValues;
 
+    // Related links
+    private final Map<String, String> links;
+
     public static ContactBuilder newBuilder() {
         return new ContactBuilder();
     }
@@ -51,7 +56,8 @@ public class Contact {
         @JsonProperty("firstName") final String firstName,
         @JsonProperty("lastName") final String lastName,
         @JsonProperty("phone") final String phone,
-        final List<FieldValue> fieldValues
+        final List<FieldValue> fieldValues,
+        @JsonProperty("links") final Map<String, String> links
     ) {
         this.id = id;
         this.email = email;
@@ -62,6 +68,12 @@ public class Contact {
             this.fieldValues = Collections.emptyList();
         } else {
             this.fieldValues = Collections.unmodifiableList(new ArrayList<>(fieldValues));
+        }
+
+        if (links == null) {
+            this.links = Collections.emptyMap();
+        } else {
+            this.links = Collections.unmodifiableMap(new HashMap<>(links));
         }
     }
 
@@ -87,6 +99,10 @@ public class Contact {
 
     public List<FieldValue> getFieldValues() {
         return fieldValues;
+    }
+
+    public Map<String, String> getLinks() {
+        return links;
     }
 
     @Override

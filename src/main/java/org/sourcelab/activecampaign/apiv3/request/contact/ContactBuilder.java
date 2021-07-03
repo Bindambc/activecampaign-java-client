@@ -33,6 +33,7 @@ public class ContactBuilder {
     private String phone;
 
     private Map<Long, String> fields = new HashMap<>();
+    private final Map<String, String> links = new HashMap<>();
 
     public ContactBuilder withId(final long id) {
         this.id = id;
@@ -74,6 +75,19 @@ public class ContactBuilder {
         return this;
     }
 
+    public ContactBuilder withLink(final String name, final String url) {
+        links.put(name, url);
+        return this;
+    }
+
+    public ContactBuilder withLinks(final Map<String, String> links) {
+        if (links != null) {
+            this.links.putAll(links);
+        }
+        return this;
+    }
+
+
     public Contact build() {
         final List<Contact.FieldValue> fieldValues = new ArrayList<>();
         fields.forEach((key, value) -> fieldValues.add(new Contact.FieldValue(key, value)));
@@ -84,7 +98,8 @@ public class ContactBuilder {
             firstName,
             lastName,
             phone,
-            fieldValues
+            fieldValues,
+            links
         );
     }
 }
